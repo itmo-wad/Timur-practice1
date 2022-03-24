@@ -89,6 +89,14 @@ def file_upload():
     flash("don't hack")
     return redirect(url_for("file_upload"))
 
+@app.route("/api/erase", methods=["POST"])
+def clean_mess_history():
+    print(request.form)
+    print(request.form.get("secret_param"))
+    if request.form.get("secret_param") != "sainou":
+        return ""
+    mongo.db.messages.delete_many({})
+    return "1"
 
 @app.route("/uploaded/<path:path>")
 def serve_uploaded(path):
